@@ -24,8 +24,8 @@ var firstandpike = {
       this.cookiesPerHour.push(cookiesPurchased);
     }
   },
-  calculateTotalCookies: function(cph){ 
-    return cph.reduce(add, 0)
+  calculateTotalCookies: function(){ 
+    return this.cookiesPerHour.reduce(add, 0)
   },
   appendCookiesToHtml: function () {
     for (var i = 0; i < this.cookiesPerHour.length; i++) {
