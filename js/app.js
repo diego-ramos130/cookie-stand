@@ -7,7 +7,7 @@ var stores = [];
 function add(el, el2) {
   return el + el2;
 }
-
+renderTopRow();
 function Store(name,min,max,avg){
   this.name = name;
   this.min = min;
@@ -16,6 +16,7 @@ function Store(name,min,max,avg){
   this.cph = [];
   this.total = 0;
   stores.push(this);
+  this.populateCPH();
 }
 
 Store.prototype.randomGen = function() {
@@ -28,7 +29,7 @@ Store.prototype.populateCPH = function() {
     this.cph.push(cookiesPurchased);
   }
 this.total = this.cph.reduce(add, 0);
-
+this.render();
 };
 Store.prototype.render = function() {
   var trEl = document.createElement('tr'); 
@@ -41,11 +42,12 @@ Store.prototype.render = function() {
     var tdEl = document.createElement('td');
     tdEl.textContent = this.cph[i];
     trEl.appendChild(tdEl);
-  } //need to get the child of main. how? or id the table after i create it. 
+  } 
   var totaltdEl = document.createElement('td');
   totaltdEl.textContent = this.total; 
   trEl.appendChild(totaltdEl);
 }
+
 function renderTopRow() {
   var tableEl = document.createElement('table');
   var loke = document.getElementById('dead');
@@ -64,4 +66,8 @@ function renderTopRow() {
 
 
 
-var testStore = new Store('Diego\'s store', 8, 34, 6.5)
+new Store('1st and Pike',23,65,6.3);
+new Store('SeaTac Airport',3,24,1.2);
+new Store('Seattle Center',11,38,3.7);
+new Store('Capitol Hill',20,38,2.3);
+new Store('Alki',2,16,4.6);
