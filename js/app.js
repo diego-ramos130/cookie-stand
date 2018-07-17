@@ -1,273 +1,67 @@
 'use strict';
-//what we want to do: make an object that represents the store with min, max customers and avg cookies bought at hourly standards. 
-var openHours = 15;
-var ulEl = document.createElement('ul');
-var ulEl2 = document.createElement('ul');
-var ulEl3 = document.createElement('ul');
-var ulEl4 = document.createElement('ul');
-var ulEl5 = document.createElement('ul');
+
+var openHours = ['6AM','7AM','8AM','9AM','10AM','11AM','12AM','1PM','2PM','3PM','4PM','5PM','6PM','7PM','8PM']; 
+var stores = [];
 
 
 function add(el, el2) {
- return el + el2;
+  return el + el2;
 }
 
+function Store(name,min,max,avg){
+  this.name = name;
+  this.min = min;
+  this.max = max;
+  this.avg = avg; 
+  this.cph = [];
+  this.total = 0;
+  stores.push(this);
+}
 
-var first = {
-  name: '1st and Pike',
-  minCustomers: 23,
-  maxCustomers: 65,
-  avgPerCustomer: 6.3,
-  cookiesPerHour: [],
-  hour: [],
-  concacenatedCPHandHour: [],
-  customerGen: function() {
-    return Math.floor(Math.random() * (this.maxCustomers - this.minCustomers)) + this.minCustomers;
-  },
-  populateCookiesPurchasedAndHours: function (){
-    for (var i = 0; i < openHours - 1; i++){
-      var cookiesPurchased = Math.floor(this.customerGen() * this.avgPerCustomer);
-      this.cookiesPerHour.push(cookiesPurchased);
-      if (i > 6) {
-        this.hour.push((i-6) + 'PM')
-      } else {
-        this.hour.push((i+6) + 'AM')
-      }
-      this.concacenatedCPHandHour[i] = (this.hour[i] +': ' + this.cookiesPerHour[i])
-    }
-  },
-  calculateTotalCookies: function(){ 
-    first.concacenatedCPHandHour.push(this.cookiesPerHour.reduce(add, 0));
+Store.prototype.randomGen = function() {
+  return Math.floor(Math.random() * (this.max - this.min)) + this.min;
+};
 
-  },
-  appendCookiesToHtml: function () {
-    for (var i = 0; i < this.concacenatedCPHandHour.length; i++) {
-      var liEl = document.createElement('li');
-      liEl.textContent = this.concacenatedCPHandHour[i];
-      ulEl.appendChild(liEl);
-      var cookiesReport = document.getElementById('sales');
-      cookiesReport.appendChild(ulEl);
-    }
-  },
-  appendNameToHtml: function(){
-    var pEl = document.createElement('p');
-    pEl.textContent = this.name;
-    var nameOfStore = document.getElementById('sales');
-    nameOfStore.appendChild(pEl);
-  },
-  generator: function() {
-    this.populateCookiesPurchasedAndHours();
-    this.calculateTotalCookies();
-    this.appendNameToHtml();
-    this.appendCookiesToHtml();
+Store.prototype.populateCPH = function() {
+  for (var i = 0; i < openHours.length; i++) {
+    var cookiesPurchased =  Math.floor(this.randomGen() * this.avg);
+    this.cph.push(cookiesPurchased);
   }
+this.total = this.cph.reduce(add, 0);
+
+};
+Store.prototype.render = function() {
+  var trEl = document.createElement('tr'); 
+  var storage = document.getElementById('dead').firstElementChild;
+  storage.appendChild(trEl);
+  var nametdEl = document.createElement('td');
+  nametdEl.textContent = this.name;
+  trEl.appendChild(nametdEl);
+  for (var i = 0; i < openHours.length; i++){
+    var tdEl = document.createElement('td');
+    tdEl.textContent = this.cph[i];
+    trEl.appendChild(tdEl);
+  } //need to get the child of main. how? or id the table after i create it. 
+  var totaltdEl = document.createElement('td');
+  totaltdEl.textContent = this.total; 
+  trEl.appendChild(totaltdEl);
 }
-
-var seatac = {
-  name: 'SeaTac Airport',
-  minCustomers: 3,
-  maxCustomers: 24,
-  avgPerCustomer: 1.2,
-  cookiesPerHour: [],
-  hour: [],
-  concacenatedCPHandHour: [],
-  customerGen: function () {
-    return Math.floor(Math.random() * (this.maxCustomers - this.minCustomers)) + this.minCustomers;
-  },
-  populateCookiesPurchasedAndHours: function () {
-    for (var i = 0; i < openHours - 1; i++) {
-      var cookiesPurchased = Math.floor(this.customerGen() * this.avgPerCustomer);
-      this.cookiesPerHour.push(cookiesPurchased);
-      if (i > 6) {
-        this.hour.push((i - 6) + 'PM')
-      } else {
-        this.hour.push((i + 6) + 'AM')
-      }
-      this.concacenatedCPHandHour[i] = (this.hour[i] + ': ' + this.cookiesPerHour[i])
-    }
-  },
-  calculateTotalCookies: function () {
-    first.concacenatedCPHandHour.push(this.cookiesPerHour.reduce(add, 0));
-
-  },
-  appendCookiesToHtml: function () {
-    for (var i = 0; i < this.concacenatedCPHandHour.length; i++) {
-      var liEl = document.createElement('li');
-      liEl.textContent = this.concacenatedCPHandHour[i];
-      ulEl2.appendChild(liEl);
-      var cookiesReport = document.getElementById('sales');
-      cookiesReport.appendChild(ulEl2);
-    }
-  },
-  appendNameToHtml: function () {
-    var pEl = document.createElement('p');
-    pEl.textContent = this.name;
-    var nameOfStore = document.getElementById('sales');
-    nameOfStore.appendChild(pEl);
-  },
-  generator: function () {
-    this.populateCookiesPurchasedAndHours();
-    this.calculateTotalCookies();
-    this.appendNameToHtml();
-    this.appendCookiesToHtml();
+function renderTopRow() {
+  var tableEl = document.createElement('table');
+  var loke = document.getElementById('dead');
+  loke.appendChild(tableEl);
+  var trEl = document.createElement('tr');
+  tableEl.appendChild(trEl); 
+  var emptyline = document.createElement('td');
+  trEl.appendChild(emptyline);
+  for (var i = 0; i < openHours.length; i++){
+    var tdEl = document.createElement('th');
+    tdEl.textContent = openHours[i];
+    trEl.appendChild(tdEl);
   }
-}
 
-var seattlecen = {
-  name: 'Seattle Center',
-  minCustomers: 11,
-  maxCustomers: 38,
-  avgPerCustomer: 3.7,
-  cookiesPerHour: [],
-  hour: [],
-  concacenatedCPHandHour: [],
-  customerGen: function () {
-    return Math.floor(Math.random() * (this.maxCustomers - this.minCustomers)) + this.minCustomers;
-  },
-  populateCookiesPurchasedAndHours: function () {
-    for (var i = 0; i < openHours - 1; i++) {
-      var cookiesPurchased = Math.floor(this.customerGen() * this.avgPerCustomer);
-      this.cookiesPerHour.push(cookiesPurchased);
-      if (i > 6) {
-        this.hour.push((i - 6) + 'PM')
-      } else {
-        this.hour.push((i + 6) + 'AM')
-      }
-      this.concacenatedCPHandHour[i] = (this.hour[i] + ': ' + this.cookiesPerHour[i])
-    }
-  },
-  calculateTotalCookies: function () {
-    first.concacenatedCPHandHour.push(this.cookiesPerHour.reduce(add, 0));
+};
 
-  },
-  appendCookiesToHtml: function () {
-    for (var i = 0; i < this.concacenatedCPHandHour.length; i++) {
-      var liEl = document.createElement('li');
-      liEl.textContent = this.concacenatedCPHandHour[i];
-      ulEl3.appendChild(liEl);
-      var cookiesReport = document.getElementById('sales');
-      cookiesReport.appendChild(ulEl3);
-    }
-  },
-  appendNameToHtml: function () {
-    var pEl = document.createElement('p');
-    pEl.textContent = this.name;
-    var nameOfStore = document.getElementById('sales');
-    nameOfStore.appendChild(pEl);
-  },
-  generator: function () {
-    this.populateCookiesPurchasedAndHours();
-    this.calculateTotalCookies();
-    this.appendNameToHtml();
-    this.appendCookiesToHtml();
-  }
-}
-var capitol = {
-  name: 'Capitol Hill',
-  minCustomers: 20,
-  maxCustomers: 38,
-  avgPerCustomer: 2.3,
-  cookiesPerHour: [],
-  hour: [],
-  concacenatedCPHandHour: [],
-  customerGen: function () {
-    return Math.floor(Math.random() * (this.maxCustomers - this.minCustomers)) + this.minCustomers;
-  },
-  populateCookiesPurchasedAndHours: function () {
-    for (var i = 0; i < openHours - 1; i++) {
-      var cookiesPurchased = Math.floor(this.customerGen() * this.avgPerCustomer);
-      this.cookiesPerHour.push(cookiesPurchased);
-      if (i > 6) {
-        this.hour.push((i - 6) + 'PM')
-      } else {
-        this.hour.push((i + 6) + 'AM')
-      }
-      this.concacenatedCPHandHour[i] = (this.hour[i] + ': ' + this.cookiesPerHour[i])
-    }
-  },
-  calculateTotalCookies: function () {
-    first.concacenatedCPHandHour.push(this.cookiesPerHour.reduce(add, 0));
 
-  },
-  appendCookiesToHtml: function () {
-    for (var i = 0; i < this.concacenatedCPHandHour.length; i++) {
-      var liEl = document.createElement('li');
-      liEl.textContent = this.concacenatedCPHandHour[i];
-      ulEl4.appendChild(liEl);
-      var cookiesReport = document.getElementById('sales');
-      cookiesReport.appendChild(ulEl4);
-    }
-  },
-  appendNameToHtml: function () {
-    var pEl = document.createElement('p');
-    pEl.textContent = this.name;
-    var nameOfStore = document.getElementById('sales');
-    nameOfStore.appendChild(pEl);
-  },
-  generator: function () {
-    this.populateCookiesPurchasedAndHours();
-    this.calculateTotalCookies();
-    this.appendNameToHtml();
-    this.appendCookiesToHtml();
-  }
-}
-var alki = {
-  name: 'Alki',
-  minCustomers: 2,
-  maxCustomers: 16,
-  avgPerCustomer: 4.6,
-  cookiesPerHour: [],
-  hour: [],
-  concacenatedCPHandHour: [],
-  customerGen: function () {
-    return Math.floor(Math.random() * (this.maxCustomers - this.minCustomers)) + this.minCustomers;
-  },
-  populateCookiesPurchasedAndHours: function () {
-    for (var i = 0; i < openHours - 1; i++) {
-      var cookiesPurchased = Math.floor(this.customerGen() * this.avgPerCustomer);
-      this.cookiesPerHour.push(cookiesPurchased);
-      if (i > 6) {
-        this.hour.push((i - 6) + 'PM')
-      } else {
-        this.hour.push((i + 6) + 'AM')
-      }
-      this.concacenatedCPHandHour[i] = (this.hour[i] + ': ' + this.cookiesPerHour[i])
-    }
-  },
-  calculateTotalCookies: function () {
-    first.concacenatedCPHandHour.push(this.cookiesPerHour.reduce(add, 0));
 
-  },
-  appendCookiesToHtml: function () {
-    for (var i = 0; i < this.concacenatedCPHandHour.length; i++) {
-      var liEl = document.createElement('li');
-      liEl.textContent = this.concacenatedCPHandHour[i];
-      ulEl5.appendChild(liEl);
-      var cookiesReport = document.getElementById('sales');
-      cookiesReport.appendChild(ulEl5);
-    }
-  },
-  appendNameToHtml: function () {
-    var pEl = document.createElement('p');
-    pEl.textContent = this.name;
-    var nameOfStore = document.getElementById('sales');
-    nameOfStore.appendChild(pEl);
-  },
-  generator: function () {
-    this.populateCookiesPurchasedAndHours();
-    this.calculateTotalCookies();
-    this.appendNameToHtml();
-    this.appendCookiesToHtml();
-  }
-}
-
-function godTestRunner() {
-  first.generator();
-  seatac.generator();
-  seattlecen.generator();
-  capitol.generator();
-  alki.generator();
-  /* seatac.generator(); */
-}
-
-godTestRunner();
+var testStore = new Store('Diego\'s store', 8, 34, 6.5)
