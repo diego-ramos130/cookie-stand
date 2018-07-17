@@ -66,8 +66,24 @@ function renderTopRow() {
 
 
 
-new Store('1st and Pike',23,65,6.3);
+/* new Store('1st and Pike',23,65,6.3);
 new Store('SeaTac Airport',3,24,1.2);
 new Store('Seattle Center',11,38,3.7);
 new Store('Capitol Hill',20,38,2.3);
 new Store('Alki',2,16,4.6);
+ */
+
+ var listOfStores = [
+   ['1st and Pike', 23, 65, 6.3],
+   ['SeaTac Airport', 3, 24, 1.2],
+   ['Seattle Center', 11, 38, 3.7],
+   ['Capitol Hill', 20, 38, 2.3],
+   ['Alki', 2, 16, 4.6]
+ ]
+
+ function populateStores() {
+   for(var i = 0; i < listOfStores.length; i++){
+     new Store(listOfStores[i][0], listOfStores[i][1], listOfStores[i][2], listOfStores[i][3])
+   }
+
+ }
