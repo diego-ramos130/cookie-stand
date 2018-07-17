@@ -7,7 +7,7 @@ var stores = [];
 function add(el, el2) {
   return el + el2;
 }
-renderTopRow();
+
 function Store(name,min,max,avg){
   this.name = name;
   this.min = min;
@@ -83,7 +83,35 @@ new Store('Alki',2,16,4.6);
 
  function populateStores() {
    for(var i = 0; i < listOfStores.length; i++){
-     new Store(listOfStores[i][0], listOfStores[i][1], listOfStores[i][2], listOfStores[i][3])
+     new Store(listOfStores[i][0], listOfStores[i][1], listOfStores[i][2], listOfStores[i][3]);
    }
 
  }
+ function renderBotRow() {
+   //we want to add all elements in a column 
+   //that involves getting the CPH of the same index for every store
+   var storage = document.getElementById('dead').firstElementChild; 
+   var trEl = document.createElement('tr');
+   storage.appendChild(trEl);
+   var title = document.createElement('td');
+   title.textContent = 'Total Per Hour';
+   trEl.appendChild(title);
+   var dumperfile = 0;
+   for (var i = 0; i < openHours.length; i++){
+     var dumpfile = 0;
+     for (var j = 0; j < listOfStores.length;j++){
+      dumpfile += stores[j].cph[i];
+     }
+     var tdEl = document.createElement('td');
+     tdEl.textContent = dumpfile;
+     trEl.appendChild(tdEl);
+     dumperfile += dumpfile;
+   }
+   var tdEl = document.createElement('td');
+   tdEl.textContent = dumperfile;
+   trEl.appendChild(tdEl);
+  }
+
+  renderTopRow();
+  populateStores();
+  renderBotRow();
