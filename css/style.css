@@ -6,3 +6,15 @@ p {
 ul li {
   list-style: circle;
 }
+
+table {
+  text-align: center;
+  vertical-align: center;
+  border-collapse: separate;
+  border-radius: 5px;
+  border: 2px;
+}
+
+td:hover {
+  background: aqua;
+}

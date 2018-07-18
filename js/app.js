@@ -2,11 +2,18 @@
 
 var openHours = ['6AM','7AM','8AM','9AM','10AM','11AM','12AM','1PM','2PM','3PM','4PM','5PM','6PM','7PM','8PM']; 
 var stores = [];
+var listOfStores = [
+  ['1st and Pike', 23, 65, 6.3],
+  ['SeaTac Airport', 3, 24, 1.2],
+  ['Seattle Center', 11, 38, 3.7],
+  ['Capitol Hill', 20, 38, 2.3],
+  ['Alki', 2, 16, 4.6]
+];
 
 
 function add(el, el2) {
   return el + el2;
-}
+};
 
 function Store(name,min,max,avg){
   this.name = name;
@@ -17,7 +24,7 @@ function Store(name,min,max,avg){
   this.total = 0;
   stores.push(this);
   this.populateCPH();
-}
+};
 
 Store.prototype.randomGen = function() {
   return Math.floor(Math.random() * (this.max - this.min)) + this.min;
@@ -46,7 +53,7 @@ Store.prototype.render = function() {
   var totaltdEl = document.createElement('td');
   totaltdEl.textContent = this.total; 
   trEl.appendChild(totaltdEl);
-}
+};
 
 function renderTopRow() {
   var tableEl = document.createElement('table');
@@ -61,10 +68,7 @@ function renderTopRow() {
     tdEl.textContent = openHours[i];
     trEl.appendChild(tdEl);
   }
-
 };
-
-
 
 /* new Store('1st and Pike',23,65,6.3);
 new Store('SeaTac Airport',3,24,1.2);
@@ -73,19 +77,11 @@ new Store('Capitol Hill',20,38,2.3);
 new Store('Alki',2,16,4.6);
  */
 
- var listOfStores = [
-   ['1st and Pike', 23, 65, 6.3],
-   ['SeaTac Airport', 3, 24, 1.2],
-   ['Seattle Center', 11, 38, 3.7],
-   ['Capitol Hill', 20, 38, 2.3],
-   ['Alki', 2, 16, 4.6]
- ]
 
  function populateStores() {
    for(var i = 0; i < listOfStores.length; i++){
      new Store(listOfStores[i][0], listOfStores[i][1], listOfStores[i][2], listOfStores[i][3]);
    }
-
  }
  function renderBotRow() {
    //we want to add all elements in a column 
@@ -111,7 +107,6 @@ new Store('Alki',2,16,4.6);
    tdEl.textContent = dumperfile;
    trEl.appendChild(tdEl);
   }
-
   renderTopRow();
   populateStores();
   renderBotRow();
