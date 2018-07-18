@@ -10,7 +10,6 @@ var listOfStores = [
   ['Alki', 2, 16, 4.6]
 ];
 
-
 function add(el, el2) {
   return el + el2;
 };
@@ -38,6 +37,7 @@ Store.prototype.populateCPH = function() {
 this.total = this.cph.reduce(add, 0);
 this.render();
 };
+
 Store.prototype.render = function() {
   var trEl = document.createElement('tr'); 
   var storage = document.getElementById('dead').firstElementChild;
@@ -68,15 +68,9 @@ function renderTopRow() {
     tdEl.textContent = openHours[i];
     trEl.appendChild(tdEl);
   }
+  var emptyline2 = document.createElement('td');
+  trEl.appendChild(emptyline2);
 };
-
-/* new Store('1st and Pike',23,65,6.3);
-new Store('SeaTac Airport',3,24,1.2);
-new Store('Seattle Center',11,38,3.7);
-new Store('Capitol Hill',20,38,2.3);
-new Store('Alki',2,16,4.6);
- */
-
 
  function populateStores() {
    for(var i = 0; i < listOfStores.length; i++){
@@ -107,6 +101,7 @@ new Store('Alki',2,16,4.6);
    tdEl.textContent = dumperfile;
    trEl.appendChild(tdEl);
   }
+ 
   renderTopRow();
   populateStores();
   renderBotRow();
