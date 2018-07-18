@@ -13,6 +13,11 @@ var listOfStores = [
 function add(el, el2) {
   return el + el2;
 };
+window.onload = function () {
+  renderTopRow();
+  populateStores();
+  renderBotRow();
+}
 
 function Store(name,min,max,avg){
   this.name = name;
@@ -92,16 +97,39 @@ function renderTopRow() {
      for (var j = 0; j < listOfStores.length;j++){
       dumpfile += stores[j].cph[i];
      }
+     // we do this so we can have an overall running total of cookies sold at the end of this bracket 
      var tdEl = document.createElement('td');
      tdEl.textContent = dumpfile;
      trEl.appendChild(tdEl);
      dumperfile += dumpfile;
    }
+   //writing the running total of cookies sold 
    var tdEl = document.createElement('td');
    tdEl.textContent = dumperfile;
    trEl.appendChild(tdEl);
   }
+
+  var formEl = document.getElementById('addstore');
+  formEl.addEventListener('submit', function(event){
+    event.preventDefault();
+    updateBotRow();
+    var name = event.target.store.value;
+    var min = event.target.min.value;
+    var max = event.target.max.value;
+    var avg = event.target.avg.value;
+    new Store(name,min,max,avg);
+    renderBotRow();
+  })
+
+  function updateBotRow(){
+    //this function should delete the bottom row, and then pass renderBotRow() again.
+    var tbEl = document.getElementById('dead').firstElementChild;
+    //now, we have dom access to the table. we need to get into the row and delete the last one.
+    //we can get dom access to the last one maybe by doing this:
+    var botrow = tbEl.lastElementChild;
+    tbEl.removeChild(botrow);
+    
+  };
  
-  renderTopRow();
-  populateStores();
-  renderBotRow();
+
+ 
