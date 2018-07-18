@@ -94,7 +94,7 @@ function renderTopRow() {
    var dumperfile = 0;
    for (var i = 0; i < openHours.length; i++){
      var dumpfile = 0;
-     for (var j = 0; j < listOfStores.length;j++){
+     for (var j = 0; j < stores.length;j++){
       dumpfile += stores[j].cph[i];
      }
      // we do this so we can have an overall running total of cookies sold at the end of this bracket 
