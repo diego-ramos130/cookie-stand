@@ -110,3 +110,17 @@ nav{
   margin-top: 5%;
   margin-bottom:5%;
 }
+
+form{
+  max-width: 65%;
+  align-self: center;
+}
+form input.text{
+  max-width:50%;
+  display:inline;
+}
+form input{
+  max-width:calc(45%/3);
+  display:inline;
+}
+
