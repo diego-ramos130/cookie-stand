@@ -16,13 +16,14 @@ footer {
   
 
 }
-.reasons{
-  width: 30%;
-  
+.split-lists:after {
+  content: '';
+  display: table;
+  clear: both;
 }
-.lokes{
-  width: 30%;
- 
+.column{
+  float:left;
+  width:50%;
 }
 
 .container {
@@ -60,6 +61,7 @@ h1{
 h2{
   font-size: 200%;
   text-align:middle;
+  margin-top: 10%;
 }
 
 ul li {
