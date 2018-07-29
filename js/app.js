@@ -45,16 +45,19 @@ this.render();
 
 Store.prototype.render = function() {
   var trEl = document.createElement('tr'); 
-  var storage = document.getElementById('dead').firstElementChild;
+  var storage = document.getElementById('dead').firstElementChild; //gets child of main, which is table
   storage.appendChild(trEl);
-  var nametdEl = document.createElement('td');
-  nametdEl.textContent = this.name;
-  trEl.appendChild(nametdEl);
+
+  var nametdEl = document.createElement('td'); //create element to be appended
+  nametdEl.textContent = this.name; //change the content of that element
+  trEl.appendChild(nametdEl); //append that element in the DOM 
+
   for (var i = 0; i < openHours.length; i++){
     var tdEl = document.createElement('td');
     tdEl.textContent = this.cph[i];
     trEl.appendChild(tdEl);
   } 
+
   var totaltdEl = document.createElement('td');
   totaltdEl.textContent = this.total; 
   trEl.appendChild(totaltdEl);
@@ -73,7 +76,8 @@ function renderTopRow() {
     tdEl.textContent = openHours[i];
     trEl.appendChild(tdEl);
   }
-  var emptyline2 = document.createElement('td');
+  var emptyline2 = document.createElement('th');
+  emptyline2.textContent = 'Totals';
   trEl.appendChild(emptyline2);
 };
 
