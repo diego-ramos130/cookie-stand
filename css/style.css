@@ -120,7 +120,10 @@ form input.text{
   display:inline;
 }
 form input{
-  max-width:calc(45%/3);
+  max-width:calc(40%/3);
   display:inline;
 }
 
+form button {
+  width: 25%;
+}
